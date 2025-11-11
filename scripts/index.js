@@ -33,10 +33,65 @@ const words = [
 ];
 
 //Initializing word
-let randomWord;
+// let randomWord = words[Math.floor(Math.random() * words.length)];
+// word.style.backgroundColor = "red"; // bara ett test, ta bort
+// word.textContent = randomWord;
+// console.dir(word);
 
-//Initializing score
+let randomWord; 
 let score = 0;
-
-//Initializing time
 let time = 10;
+
+function addWordToDOM () {
+    randomWord = words[Math.floor(Math.random() * words.length)];
+    word.textContent = randomWord;
+}
+addWordToDOM();
+
+function updateScore() {
+    score += 1;
+    scoreEl.textContent = score;
+}
+
+// time = parseFloat(timeEl);
+text.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        const typedWord = text.value; // det som skrivs i input field ska sparas i typedWord variablen
+        // timeEl = time;
+        if (typedWord === randomWord) {
+            updateScore();
+            addWordToDOM();
+            text.value = "";
+            time += 5;
+            timeEl.textContent = time + "s";
+        }
+    }
+});
+
+
+function updateTime() {
+    time--;
+    timeEl.textContent = time + "s";
+    if (time === 0) {
+        clearInterval(timer);
+        endGame();
+    }
+}
+const timer = setInterval(updateTime, 1000);
+
+function endGame() {
+    endgameEl.style.display = "flex";
+    const paragraph = document.createElement("p");   
+    paragraph.textContent = "Game Over";
+    paragraph.style.fontSize = "60px";
+    endgameEl.appendChild(paragraph);
+}
+// endgame();
+
+
+    // const paragraph = document.createElement("p");
+    // endgameEl.style.display = "block"; // this workin
+    // // document.createElement("p");
+    // // endgameEl.innerHTML = "Hello?";
+    // endgameEl.style.backgroundColor = "red";
+    // paragraph.classList.add("end-game-container");  
